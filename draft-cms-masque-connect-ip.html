@@ -1084,10 +1084,10 @@ document.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
 permits the exchange of control data, such as IP address information, reachable
 IP ranges, and other relevant information for successfully transmitting IP
 datagrams between hosts.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<p id="section-2-2">The request-target of a CONNECT-IP request is a URI <span>[<a href="#RFC3986" class="xref">RFC3986</a>]</span> which uses the
-"https" scheme and an immutable path of "/". When using HTTP/2 <span>[<a href="#H2" class="xref">H2</a>]</span>
-or later, CONNECT-IP requests use HTTP pseudo-headers with the following
-requirements:<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-2">The request-target of a CONNECT-IP request is a URI <span>[<a href="#URI" class="xref">URI</a>]</span> which uses
+the "https" scheme and an immutable path of "/". When using HTTP/2
+<span>[<a href="#H2" class="xref">H2</a>]</span> or later, CONNECT-IP requests use HTTP pseudo-headers with the
+following requirements:<a href="#section-2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2-3.1">The ":method" pseudo-header field is set to "CONNECT-IP".<a href="#section-2-3.1" class="pilcrow">¶</a>
 </li>
@@ -1126,9 +1126,9 @@ the associated tunnel.<a href="#section-2-9" class="pilcrow">¶</a></p>
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-transmitting-ip-packets-usi" class="section-name selfRef">Transmitting IP Packets using HTTP Datagrams</a>
       </h2>
 <p id="section-3-1">When the HTTP connection supports HTTP/3 datagrams
-<span>[<a href="#H3DGRAM" class="xref">H3DGRAM</a>]</span>, IP packets can be sent using
-them. The HTTP/3 Datagram Payload contains a full IP packet, from the IP
-Version field until the last byte of the IP Payload.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<span>[<a href="#H3DGRAM" class="xref">H3DGRAM</a>]</span>, IP packets can be sent using them.
+The HTTP/3 Datagram Payload contains a full IP packet, from the IP Version
+field until the last byte of the IP Payload.<a href="#section-3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="routes">
@@ -1156,10 +1156,11 @@ prefix is used.<a href="#section-4-1" class="pilcrow">¶</a></p>
       <h2 id="name-stream-chunks">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-stream-chunks" class="section-name selfRef">Stream Chunks</a>
       </h2>
-<p id="section-5-1">The bidirectional stream that the CONNECT-IP request was sent on is a
-sequence of CONNECT-IP Stream Chunks, which are defined as a sequence of
-type-length-value tuples using the following format (using the notation from
-the "Notational Conventions" section of <span>[<a href="#QUIC" class="xref">QUIC</a>]</span>):<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">The DATA stream tied to the bidirectional stream that the CONNECT-IP request
+was sent on is a sequence of CONNECT-IP Stream Chunks, which are defined as a
+sequence of type-length-value tuples using the following format (using the
+notation from the "Notational Conventions" section of
+<span>[<a href="#QUIC" class="xref">QUIC</a>]</span>):<a href="#section-5-1" class="pilcrow">¶</a></p>
 <span id="name-connect-ip-stream-format"></span><div id="stream-chunk-format">
 <figure id="figure-1">
         <div class="artwork art-text alignLeft" id="section-5-2.1">
@@ -1249,6 +1250,8 @@ Payload.<a href="#section-6.1-3.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
+<p id="section-6.1-4">Note that this message MAY still be used even when HTTP/3 datagrams are
+available.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="addressassign-message">
@@ -1512,7 +1515,7 @@ SHUTDOWN Message {
 Reason Phrase:  </dt>
           <dd style="margin-left: 1.5em" id="section-6.7-3.2">
             <p id="section-6.7-3.2.1">Additional diagnostic information for the shutdown. This SHOULD be
-a UTF-8 encoded string <span>[<a href="#RFC3629" class="xref">RFC3629</a>]</span>, though the frame does not carry
+a UTF-8 encoded string <span>[<a href="#UTF8" class="xref">UTF8</a>]</span>, though the frame does not carry
 information, such as language tags, that would aid comprehension by any entity
 other than the one that created the text.<a href="#section-6.7-3.2.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1606,8 +1609,8 @@ exchanging DNS configuration between endpoints.<a href="#section-7-1" class="pil
 <p id="section-8-1">There are significant risks in allowing arbitrary clients to establish a tunnel
 to arbitrary servers, as that could allow bad actors to send traffic and have
 it attributed to the proxy. Proxies that support CONNECT-IP SHOULD restrict its
-use to authenticated users. The HTTP Authorization header <span>[<a href="#RFC7235" class="xref">RFC7235</a>]</span> MAY be
-used to authenticate clients. More complex authentication schemes are out of
+use to authenticated users. The HTTP Authorization header <span>[<a href="#AUTH" class="xref">AUTH</a>]</span> MAY
+be used to authenticate clients. More complex authentication schemes are out of
 scope for this document but can be implemented using CONNECT-IP extensions.<a href="#section-8-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1700,7 +1703,7 @@ NOT appear in the listing of assigned values.<a href="#section-9.2-5" class="pil
 <dd class="break"></dd>
 <dt id="H3DGRAM">[H3DGRAM]</dt>
         <dd>
-<span class="refAuthor">Schinazi, D.</span> and <span class="refAuthor">L. Pardue</span>, <span class="refTitle">"Using QUIC Datagrams with HTTP/3"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-schinazi-masque-h3-datagram-04</span>, <time datetime="2021-01-05" class="refDate">5 January 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-schinazi-masque-h3-datagram-04.txt">https://datatracker.ietf.org/doc/html/draft-schinazi-masque-h3-datagram-04.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Schinazi, D.</span> and <span class="refAuthor">L. Pardue</span>, <span class="refTitle">"Using QUIC Datagrams with HTTP/3"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-masque-h3-datagram-00</span>, <time datetime="2021-01-29" class="refDate">29 January 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-masque-h3-datagram-00.txt">https://datatracker.ietf.org/doc/html/draft-ietf-masque-h3-datagram-00.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="QUIC">[QUIC]</dt>
         <dd>
@@ -1710,21 +1713,21 @@ NOT appear in the listing of assigned values.<a href="#section-9.2-5" class="pil
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC3629">[RFC3629]</dt>
-        <dd>
-<span class="refAuthor">Yergeau, F.</span>, <span class="refTitle">"UTF-8, a transformation format of ISO 10646"</span>, <span class="seriesInfo">STD 63</span>, <span class="seriesInfo">RFC 3629</span>, <span class="seriesInfo">DOI 10.17487/RFC3629</span>, <time datetime="2003-11" class="refDate">November 2003</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3629">https://datatracker.ietf.org/doc/html/rfc3629</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC3986">[RFC3986]</dt>
-        <dd>
-<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3986">https://datatracker.ietf.org/doc/html/rfc3986</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC7230">[RFC7230]</dt>
         <dd>
 <span class="refAuthor">Fielding, R., Ed.</span> and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing"</span>, <span class="seriesInfo">RFC 7230</span>, <span class="seriesInfo">DOI 10.17487/RFC7230</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7230">https://datatracker.ietf.org/doc/html/rfc7230</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8174">https://datatracker.ietf.org/doc/html/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="URI">[URI]</dt>
+        <dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3986">https://datatracker.ietf.org/doc/html/rfc3986</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="UTF8">[UTF8]</dt>
+      <dd>
+<span class="refAuthor">Yergeau, F.</span>, <span class="refTitle">"UTF-8, a transformation format of ISO 10646"</span>, <span class="seriesInfo">STD 63</span>, <span class="seriesInfo">RFC 3629</span>, <span class="seriesInfo">DOI 10.17487/RFC3629</span>, <time datetime="2003-11" class="refDate">November 2003</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3629">https://datatracker.ietf.org/doc/html/rfc3629</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -1733,13 +1736,13 @@ NOT appear in the listing of assigned values.<a href="#section-9.2-5" class="pil
 <a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="REQS">[REQS]</dt>
+<dt id="AUTH">[AUTH]</dt>
         <dd>
-<span class="refAuthor">Chernyakhovsky, A.</span>, <span class="refAuthor">McCall, D.</span>, and <span class="refAuthor">D. Schinazi</span>, <span class="refTitle">"Requirements for a MASQUE Protocol to Proxy IP Traffic"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-masque-ip-proxy-reqs-01</span>, <time datetime="2021-01-08" class="refDate">8 January 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-masque-ip-proxy-reqs-01.txt">https://datatracker.ietf.org/doc/html/draft-ietf-masque-ip-proxy-reqs-01.txt</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC7235">[RFC7235]</dt>
-      <dd>
 <span class="refAuthor">Fielding, R., Ed.</span> and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP/1.1): Authentication"</span>, <span class="seriesInfo">RFC 7235</span>, <span class="seriesInfo">DOI 10.17487/RFC7235</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7235">https://datatracker.ietf.org/doc/html/rfc7235</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="REQS">[REQS]</dt>
+      <dd>
+<span class="refAuthor">Chernyakhovsky, A.</span>, <span class="refAuthor">McCall, D.</span>, and <span class="refAuthor">D. Schinazi</span>, <span class="refTitle">"Requirements for a MASQUE Protocol to Proxy IP Traffic"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-masque-ip-proxy-reqs-01</span>, <time datetime="2021-01-08" class="refDate">8 January 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-masque-ip-proxy-reqs-01.txt">https://datatracker.ietf.org/doc/html/draft-ietf-masque-ip-proxy-reqs-01.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
