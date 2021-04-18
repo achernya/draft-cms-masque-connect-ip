@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-04-15T00:54:55.059862+00:00",
+  "timestamp": "2021-04-18T00:56:12.513925+00:00",
   "repo": "DavidSchinazi/draft-cms-masque-connect-ip",
   "labels": [
     {
@@ -49,6 +49,145 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 1,
+      "id": "MDU6SXNzdWU4NTkwMTk1MzU=",
+      "title": "Add reference to BCP 38",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/1",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "So what source IP validation requirements should be required or recommended on the MASQUE endpoints. \r\n\r\nFor the basic VPN case where the MASQUE client gets assigned a single address or prefix by the MASQUE server I think it both straightforward and should be required for the MASQUE server to block any IP packets that are coming from the client with a source unicast IP address that isn't from the assigned prefix. \r\n\r\nFor the whole network this becomes more complex but still I think there should be recommendation on applying source address validation so that Connect-IP isn't a mechanism used for source address spoofing. ",
+      "createdAt": "2021-04-15T15:52:51Z",
+      "updatedAt": "2021-04-15T17:23:04Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "Good point, we'll add a reference to BCP 38 in security considerations.",
+          "createdAt": "2021-04-15T16:50:19Z",
+          "updatedAt": "2021-04-15T16:50:19Z"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "MDU6SXNzdWU4NTkwMzAxNTY=",
+      "title": "Add text about routing advertisement to security considerations",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/2",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I think there are need for a more significant discussion of the quite serious implications of route advertisements made with malicious intent. I think the most obvious would be for a MASQUE server to attempt to advertise prefixes it believes the MASQUE client might send traffic on using its other interfaces, to thus enable the MASQUE server to intercept the traffic by redirecting it through the MASQUE tunnel. \r\n\r\nSo please expand on this in the security considerations on these matters. ",
+      "createdAt": "2021-04-15T16:05:16Z",
+      "updatedAt": "2021-04-16T19:05:26Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "The text is pretty clear about these messages being purely informational, but I agree that we should add more text to security considerations to mention common pitfalls.",
+          "createdAt": "2021-04-15T16:48:22Z",
+          "updatedAt": "2021-04-15T16:48:22Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "NONE",
+          "body": "Actually I am reacting to you calling the informational. It might be optional to attempt to use the route provided by the advertisements, however the mechanism and its specification is a normative specification to follow if one uses it. And it has a purpose of informing the peer endpoint that you claim that you have routes. Using that information has implications and thus need to well explored in the security consideration. In the same venue also optional mechanism has normative references.",
+          "createdAt": "2021-04-15T19:25:47Z",
+          "updatedAt": "2021-04-15T19:25:47Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "@gloinul I don't think I understand what you meant by https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/2#issuecomment-820676840 can you try to reformulate it please?",
+          "createdAt": "2021-04-15T21:40:10Z",
+          "updatedAt": "2021-04-15T21:40:22Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "NONE",
+          "body": "In the comment above you state \"these messages being purely informational\". I have some concern with this formulation for two reasons. Yes, they provide information to the peer endpoint. However, that information is intended to be used by the peer to determine if it should route traffic (e.g establish a routing table or use the address at all) to the peer, and in that case get the traffic forwarded towards an destination. Secondly, the use of the word informational could be misinterpreted to mean that the protocol mechanism is informational. To make this work it is a protocol mechanism that needs to be normatively described. \r\n\r\nThe last point in my previous comment was simply to state that there are no difference in requirement on how things are specified including security considerations and mechanism between optional to use protocol features and required ones. \r\n\r\nThe reason I am commenting on this is that I am of the belief that the general route advertisement mechanism when used for establishing routes across the masque endpoint, primarily in the network to network tunneling case one create situations where significantly more considerations are needed. If an endpoint uses an assigned address only to source locally generated packets and not to route across it many operational and security issues do disappear related to potential routing loops, return path impact, possibility to do source address validation. ",
+          "createdAt": "2021-04-16T07:17:00Z",
+          "updatedAt": "2021-04-16T07:17:00Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "Thanks for clarifying. We'll add text to security considerations.",
+          "createdAt": "2021-04-16T19:05:26Z",
+          "updatedAt": "2021-04-16T19:05:26Z"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "MDU6SXNzdWU4NTkwMzQyMzQ=",
+      "title": "Route Advertisement: Clarify meaning of \"willing to route\"",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/3",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Section 6.4 says:\r\n\r\n   The ROUTE_ADVERTISEMENT message allows an endpoint to communicate to\r\n   its peer that it is willing to route traffic to a given prefix.\r\n\r\nI think willing to route traffic is unclear. I believe this to has the meaning of: The message sending party have a route to the advertised prefix and willing to forward traffic onto that route. \r\n\r\n   Upon receiving the ROUTE_ADVERTISEMENT message, an endpoint MAY start\r\n   routing IP packets in that prefix to its peer.\r\n\r\nAnd here I would clarify that the installation of a route on the receiving endpoint needs to be done only after consideration of the affect and following local security policies on the endpoint. Further see security consideration. \r\n\r\n",
+      "createdAt": "2021-04-15T16:10:21Z",
+      "updatedAt": "2021-04-15T17:21:37Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "This is a duplicate of #2. Adding text to security considerations will provide guidance to implementors.",
+          "createdAt": "2021-04-15T16:49:44Z",
+          "updatedAt": "2021-04-15T16:49:44Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "NONE",
+          "body": "Actually, not intended to be a duplicate. For the upper part I find the usage \"willing to route\" unclear in which directions that action apply. For the later part it was a suggestion to where to link in the security consideraitons and the importance of that MAY.\r\n",
+          "createdAt": "2021-04-15T16:53:33Z",
+          "updatedAt": "2021-04-15T16:53:33Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "Ah, thanks for clarifying. Reopening to track clarifying what \"willing to route\" means.",
+          "createdAt": "2021-04-15T17:21:23Z",
+          "updatedAt": "2021-04-15T17:21:23Z"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "MDU6SXNzdWU4NTkwMzgyMjc=",
+      "title": "Better document how HTTP/3 Datagrams are used",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/4",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I am missing the definition of the usage of the HTTP/3 datagram flow-ID and how to establish that for a particular Connect-IP request. Although this likely are very similar to Connect-UDP it still needs to be defined. Although a single flow-IP per direction is likely sufficient for now as ECN, ICMP etc will be forward as part of the payload packets to the peer endpoint. \r\n\r\nFrom my perspective we clearly need capability that supports multiple parallel Connect-X requests over the same QUIC HTTP/3 connection. \r\n",
+      "createdAt": "2021-04-15T16:15:19Z",
+      "updatedAt": "2021-04-15T17:22:45Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "@gloinul you're absolutely correct. We've intentionally left this vague for now until we get resolutions on the ongoing conversations around draft-ietf-masque-h3-datagram. We'll update draft-cms-masque-connect-ip once we've made those decisions in draft-ietf-masque-h3-datagram.",
+          "createdAt": "2021-04-15T16:47:12Z",
+          "updatedAt": "2021-04-15T16:47:12Z"
+        }
+      ]
+    }
+  ],
   "pulls": []
 }
